@@ -1,4 +1,4 @@
-package networking;
+package turingtest;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

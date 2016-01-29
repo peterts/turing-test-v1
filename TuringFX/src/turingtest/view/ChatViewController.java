@@ -1,14 +1,13 @@
-package chat;
+package turingtest.view;
 
-import java.io.IOException;
-
-import main.Main;
-import networking.ChatConnection;
-import networking.ChatListener;
+import turingtest.ChatConnection;
+import turingtest.ChatListener;
+import turingtest.MainPlayer;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
@@ -16,26 +15,21 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-public class ChatController implements ChatListener{
+public class ChatViewController implements ChatListener{
 	private final String fontFamily = "Verdena";
-	private final Double fontSize = 13.0;
+	private final Double fontSize = 14.0;
 	
 	@FXML
 	private TextField txtMessage;
 	@FXML
 	private ListView<TextFlow> lstMessageDisplay;
+	@FXML
+	private Button btnSendMessage;
 	private ObservableList<TextFlow> messages = FXCollections.observableArrayList();
-	private Main mainApp;
-	
 	private ChatConnection connection;
-	
-	public void setMainApp(Main mainApp){
-		this.mainApp = mainApp;
-	}
 	
 	public void setConnection(ChatConnection connection){
 		this.connection = connection;
-		connection.start();
 	}
 	
 	@FXML
@@ -61,7 +55,13 @@ public class ChatController implements ChatListener{
 		txtMessage.requestFocus();
 		
 		connection.sendMessage(message);
+		
+		txtMessage.setDisable(true);
+		btnSendMessage.setDisable(true);
+		
+		disableChat();
 	}
+	
 
 	@Override
 	public void addMessage(String message){
@@ -81,6 +81,25 @@ public class ChatController implements ChatListener{
 				messages.add(tf);
 			}
 		});
+		
+		enableChat();
+	}
+	
+	public void enableChat(){
+		txtMessage.setDisable(false);
+		btnSendMessage.setDisable(false);
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				txtMessage.requestFocus();
+			}
+		});
+
+	}
+	
+	public void disableChat(){
+		txtMessage.setDisable(true);
+		btnSendMessage.setDisable(true);
 	}
 	
 }
