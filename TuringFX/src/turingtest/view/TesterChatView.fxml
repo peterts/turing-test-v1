@@ -7,7 +7,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turingtest.view.ChatViewController">
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turingtest.view.TesterChatViewController">
+   <center>
+      <ListView fx:id="lstMessageDisplay" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../../stylesheets/chat.css" BorderPane.alignment="CENTER" />
+   </center>
    <bottom>
       <HBox BorderPane.alignment="CENTER">
          <children>
@@ -15,20 +18,16 @@
                <HBox.margin>
                   <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                </HBox.margin>
-               <font>
-                  <Font size="14.0" />
-               </font></TextField>
-            <Button fx:id="btnSendMessage" mnemonicParsing="false" onAction="#sendMessage" text="Send">
+            </TextField>
+            <Button fx:id="btnSendMessage" mnemonicParsing="false" onAction="#sendMessage" text="Send message">
                <HBox.margin>
                   <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                </HBox.margin>
-               <font>
-                  <Font size="14.0" />
-               </font></Button>
+            </Button>
          </children>
       </HBox>
    </bottom>
-   <center>
-      <ListView fx:id="lstMessageDisplay" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../../stylesheets/chat.css" BorderPane.alignment="CENTER" />
-   </center>
+   <top>
+      <Label fx:id="lblBotActive" text="Label" BorderPane.alignment="CENTER" />
+   </top>
 </BorderPane>

@@ -3,11 +3,14 @@ package turingtest.view;
 import turingtest.ChatConnection;
 import turingtest.ChatListener;
 import turingtest.MainPlayer;
+import turingtest.model.PlayerSession;
+import turingtest.model.TesterSession;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
@@ -15,7 +18,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-public class ChatViewController implements ChatListener{
+public class TesterChatViewController implements ChatListener{
 	private final String fontFamily = "Verdena";
 	private final Double fontSize = 14.0;
 	
@@ -25,11 +28,24 @@ public class ChatViewController implements ChatListener{
 	private ListView<TextFlow> lstMessageDisplay;
 	@FXML
 	private Button btnSendMessage;
+	@FXML
+	private Label lblBotActive;
 	private ObservableList<TextFlow> messages = FXCollections.observableArrayList();
 	private ChatConnection connection;
+	private TesterSession session;
 	
 	public void setConnection(ChatConnection connection){
 		this.connection = connection;
+	}
+	
+	public void setTesterSession(TesterSession session){
+		this.session = session;
+		if(session.isBot()){
+			lblBotActive.setText("Bot active");
+			disableChat();
+		}else{
+			lblBotActive.setText("Bot disabled");
+		}
 	}
 	
 	@FXML
@@ -40,39 +56,28 @@ public class ChatViewController implements ChatListener{
 	
 	public void sendMessage(){
 		TextFlow tf = new TextFlow();
-		
 		Text nickname = new Text("you: ");
-		nickname.setFont(Font.font(fontFamily, FontWeight.BOLD, fontSize));
-		
+		nickname.setFont(Font.font(fontFamily, FontWeight.BOLD, fontSize));	
 		String message = txtMessage.getText();
 		Text messageText = new Text(message);
 		messageText.setFont(Font.font(fontFamily, FontWeight.NORMAL, fontSize));
-		
 		tf.getChildren().addAll(nickname, messageText);
 		messages.add(tf);
-		
 		txtMessage.clear();
-		txtMessage.requestFocus();
 		
 		connection.sendMessage(message);
 		
-		txtMessage.setDisable(true);
-		btnSendMessage.setDisable(true);
-		
-		disableChat();
+		if(!session.isBot()){
+			disableChat();			
+		}
 	}
 	
-
-	@Override
-	public void addMessage(String message){
+	private void sendBotMessage(String message){
 		TextFlow tf = new TextFlow();
-		
-		Text nickname = new Text("other: ");
-		nickname.setFont(Font.font(fontFamily, FontWeight.BOLD, fontSize));
-		
+		Text nickname = new Text("bot: ");
+		nickname.setFont(Font.font(fontFamily, FontWeight.BOLD, fontSize));	
 		Text messageText = new Text(message);
 		messageText.setFont(Font.font(fontFamily, FontWeight.NORMAL, fontSize));
-		
 		tf.getChildren().addAll(nickname, messageText);
 		
 		Platform.runLater(new Runnable(){
@@ -82,7 +87,30 @@ public class ChatViewController implements ChatListener{
 			}
 		});
 		
-		enableChat();
+		connection.sendMessage(message);
+	}
+
+	@Override
+	public void addMessage(String message){
+		TextFlow tf = new TextFlow();
+		Text nickname = new Text("other: ");
+		nickname.setFont(Font.font(fontFamily, FontWeight.BOLD, fontSize));
+		Text messageText = new Text(message);
+		messageText.setFont(Font.font(fontFamily, FontWeight.NORMAL, fontSize));	
+		tf.getChildren().addAll(nickname, messageText);
+		
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run(){
+				messages.add(tf);
+			}
+		});
+		
+		if(session.isBot()){
+			sendBotMessage(session.getBotResponse(message));
+		}else{
+			enableChat();
+		}
 	}
 	
 	public void enableChat(){
@@ -94,7 +122,6 @@ public class ChatViewController implements ChatListener{
 				txtMessage.requestFocus();
 			}
 		});
-
 	}
 	
 	public void disableChat(){

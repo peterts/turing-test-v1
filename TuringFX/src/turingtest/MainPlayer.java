@@ -2,8 +2,8 @@ package turingtest;
 	
 import java.io.IOException;
 
-import turingtest.view.ChatViewController;
-import turingtest.view.PlayerChatRootController;
+import turingtest.model.PlayerSession;
+import turingtest.view.PlayerChatViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,7 +12,10 @@ import javafx.stage.Stage;
 
 
 public class MainPlayer extends Application{
-	private BorderPane chatRootLayout;
+	public final static int WINDOW_WIDTH = 600;
+	public final static int WINDOW_HEIGHT = 400;
+	
+	private BorderPane chatView;
 	private Stage primaryStage;
 	
 	@Override
@@ -29,30 +32,25 @@ public class MainPlayer extends Application{
 	
 	public void initChatWindow(boolean isServer){
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/PlayerChatRoot.fxml"));
-			
-			chatRootLayout = loader.load();
-			PlayerChatRootController chatRootController = loader.getController();
-			chatRootController.setMainApp(this);
-			
-			loader = new FXMLLoader(getClass().getResource("view/ChatView.fxml"));
-			BorderPane chatView = loader.load();
-			ChatViewController chatViewController = loader.getController();
-			chatRootLayout.setCenter(chatView);
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/PlayerChatView.fxml"));
+			chatView = loader.load();
+			PlayerChatViewController chatViewController = loader.getController();
 			
 			ChatConnection connection = new ChatConnection(isServer, chatViewController);
-			chatRootController.setConnection(connection);
+			chatViewController.setConnection(connection);
 			chatViewController.setConnection(connection);
 			connection.start();
 			
-			primaryStage.setScene(new Scene(chatRootLayout, 600, 400));
+			chatViewController.setPlayerSession(new PlayerSession());
+			
+			primaryStage.setScene(new Scene(chatView, WINDOW_WIDTH, WINDOW_HEIGHT));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void showChatWindow(){
-		primaryStage.setScene(new Scene(chatRootLayout, 600, 400));
+		primaryStage.setScene(new Scene(chatView, WINDOW_WIDTH, WINDOW_HEIGHT));
 	}
 	
 	public static void main(String[] args) {

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turingtest.view.PlayerChatViewController">
+   <center>
+      <ListView fx:id="lstMessageDisplay" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../../stylesheets/chat.css" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <HBox>
+               <children>
+                  <TextField fx:id="txtMessage" onAction="#sendMessage" promptText="Write a message..." HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Button fx:id="btnSendMessage" mnemonicParsing="false" onAction="#sendMessage" text="Send message">
+                     <HBox.margin>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Button fx:id="btnGuessComputer" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="You're a computer!" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnGuessHuman" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="You're a human!" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </bottom>
+   <top>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lblLinesLeft" text="Label">
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </Label>
+            <Label fx:id="lblCurrentPoints" text="Label">
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </Label>
+            <Pane HBox.hgrow="ALWAYS" />
+            <Label fx:id="lblTotalPoints" text="Label">
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+</BorderPane>
