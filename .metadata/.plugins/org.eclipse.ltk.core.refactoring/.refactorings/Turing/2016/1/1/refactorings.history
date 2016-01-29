@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 2 elements to &apos;TuringFX/src/networking&apos;&#x0A;- Original project: &apos;Turing&apos;&#x0A;- Destination element: &apos;TuringFX/src/networking&apos;&#x0A;- Original elements:&#x0A;     networking.ChatListener.java&#x0A;     networking.ChatConnection.java" description="Copy compilation units" destination="=TuringFX/src&lt;networking" element1="/src&lt;networking{ChatListener.java" element2="/src&lt;networking{ChatConnection.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1451686986719" units="2" version="1.0"/>
+</session>
