@@ -3,17 +3,11 @@ package turingtest;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.MulticastSocket;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ChatConnection extends Thread{
-	public static final String SERVER_GREETING = "helloimserver";
-	public static final String CLIENT_GREETING = "helloserverimclient";
-	public static final String SERVER_RESPONSE = "myipis-";
-	
+public class ChatConnection extends Thread{	
 	public static final String NAME = "localhost";
 	public static final int PORT = 56618;
 
@@ -31,10 +25,10 @@ public class ChatConnection extends Thread{
 		this.listener = listener;
 	}
 	
-	
-	@SuppressWarnings("resource")
 	private void startServer() throws IOException{
+		@SuppressWarnings("resource")
 		ServerSocket serverSocket = new ServerSocket(PORT);
+		AddressResolution.lookForClient(InetAddress.getLocalHost().getHostAddress());
 		System.out.println("Waiting for client on port " + serverSocket.getLocalPort() + "...");
 		
 		socket = serverSocket.accept();	
@@ -43,7 +37,9 @@ public class ChatConnection extends Thread{
 	}
 	
 	private void startClient() throws IOException{
-		socket = new Socket(NAME, PORT);	
+		String address = AddressResolution.lookForServer();
+		
+		socket = new Socket(address, PORT);	
 		out = new DataOutputStream(socket.getOutputStream());
 		in = new DataInputStream(socket.getInputStream());
 	}
