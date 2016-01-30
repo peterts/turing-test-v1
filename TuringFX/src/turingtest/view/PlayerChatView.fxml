@@ -30,12 +30,12 @@
             </HBox>
             <HBox>
                <children>
-                  <Button fx:id="btnGuessComputer" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="You're a computer!" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btnGuessComputer" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#guessComputer" text="You're a computer!" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="btnGuessHuman" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="You're a human!" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btnGuessHuman" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#guessHuman" text="You're a human!" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                      </HBox.margin>

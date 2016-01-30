@@ -19,8 +19,9 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 public class PlayerChatViewController implements ChatListener{
-	private final String fontFamily = "Verdena";
-	private final Double fontSize = 14.0;
+	public final static String GUESS_MESSAGE = "guess-";
+	private static final String FONT_FAMILY = "Verdena";
+	private static final Double FONT_SIZE = 14.0;
 	
 	@FXML
 	private TextField txtMessage;
@@ -48,6 +49,7 @@ public class PlayerChatViewController implements ChatListener{
 	
 	public void setPlayerSession(PlayerSession session){
 		this.session = session;
+		updateLabels();
 	}
 	
 	@FXML
@@ -57,23 +59,37 @@ public class PlayerChatViewController implements ChatListener{
 	}
 	
 	private void updateLabels(){
-		lblCurrentPoints.setText("Available points: "+session.getAvailablePoints());
-		lblLinesLeft.setText(String.format("Max. lines left: %d/20", session.getLinesLeft()));
-		lblTotalPoints.setText("Total points: " +  session.getTotalPoints());
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				lblCurrentPoints.setText("Available points: "+session.getAvailablePoints());
+				lblLinesLeft.setText(String.format("Max. lines left: %d/20", session.getLinesLeft()));
+				lblTotalPoints.setText("Total points: " +  session.getTotalPoints());	
+			}
+		});
+	}
+	
+	private void addChatMessage(String nickname, String message){
+		TextFlow tf = new TextFlow();
+		Text nicknameText = new Text(nickname);
+		nicknameText.setFont(Font.font(FONT_FAMILY, FontWeight.BOLD, FONT_SIZE));
+		Text messageText = new Text(message);
+		messageText.setFont(Font.font(FONT_FAMILY, FontWeight.NORMAL, FONT_SIZE));	
+		tf.getChildren().addAll(nicknameText, messageText);
+		
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run(){
+				messages.add(tf);
+			}
+		});
 	}
 	
 	public void sendMessage(){
-		TextFlow tf = new TextFlow();
-		Text nickname = new Text("you: ");
-		nickname.setFont(Font.font(fontFamily, FontWeight.BOLD, fontSize));	
 		String message = txtMessage.getText();
-		Text messageText = new Text(message);
-		messageText.setFont(Font.font(fontFamily, FontWeight.NORMAL, fontSize));
-		tf.getChildren().addAll(nickname, messageText);
-		messages.add(tf);
-		txtMessage.clear();
-		
+		addChatMessage("you: ", message);
 		connection.sendMessage(message);
+		txtMessage.clear();
 		
 		session.useLine();
 		updateLabels();
@@ -82,31 +98,29 @@ public class PlayerChatViewController implements ChatListener{
 	}
 	
 	public void guessHuman(){
-//		connection.sendMessage("guesshuman");
+		connection.sendMessage(GUESS_MESSAGE+TesterType.HUMAN);
 		session.registerGuess(TesterType.HUMAN);
+		disableChat();
 	}
 	
 	public void guessComputer(){
-//		connection.sendMessage("guesscomputer");
+		connection.sendMessage(GUESS_MESSAGE+TesterType.COMPUTER);
 		session.registerGuess(TesterType.COMPUTER);
+		disableChat();
 	}
 
 	@Override
 	public void addMessage(String message){
-		TextFlow tf = new TextFlow();
-		Text nickname = new Text("other: ");
-		nickname.setFont(Font.font(fontFamily, FontWeight.BOLD, fontSize));
-		Text messageText = new Text(message);
-		messageText.setFont(Font.font(fontFamily, FontWeight.NORMAL, fontSize));
-		tf.getChildren().addAll(nickname, messageText);
-		
-		Platform.runLater(new Runnable(){
-			@Override
-			public void run(){
-				messages.add(tf);
-			}
-		});
-		
+		if(message.contains(TesterChatViewController.ANSWER_MESSAGE)){
+			TesterType actualType = TesterType.getType(message.split("-")[1]);
+			String modifiedMessage = String.format("ANSWER WAS \"%s\"", actualType);
+			addChatMessage("", modifiedMessage);
+			session.evaluateGuess(actualType);
+			updateLabels();
+			return;
+		}else{
+			addChatMessage("other: ", message);
+		}
 		enableChat();
 	}
 	

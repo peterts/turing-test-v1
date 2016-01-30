@@ -8,7 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ChatConnection extends Thread{	
-	public static final String NAME = "localhost";
 	public static final int PORT = 56618;
 
 	private Socket socket;

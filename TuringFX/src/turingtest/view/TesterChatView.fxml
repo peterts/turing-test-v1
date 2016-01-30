@@ -28,6 +28,19 @@
       </HBox>
    </bottom>
    <top>
-      <Label fx:id="lblBotActive" text="Label" BorderPane.alignment="CENTER" />
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <ToggleButton fx:id="btnUseBot" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#useBot" text="Use bot" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </ToggleButton>
+            <ToggleButton fx:id="btnDonotUseBot" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#donotUseBot" text="Don't use bot" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </ToggleButton>
+         </children>
+      </HBox>
    </top>
 </BorderPane>
