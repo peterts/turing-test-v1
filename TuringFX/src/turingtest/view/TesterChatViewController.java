@@ -114,19 +114,24 @@ public class TesterChatViewController implements ChatListener{
 	}
 	
 	public void enableChat(){
-		txtMessage.setDisable(false);
-		btnSendMessage.setDisable(false);
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
+				txtMessage.setDisable(false);
+				btnSendMessage.setDisable(false);
 				txtMessage.requestFocus();
 			}
 		});
 	}
 	
 	public void disableChat(){
-		txtMessage.setDisable(true);
-		btnSendMessage.setDisable(true);
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				txtMessage.setDisable(true);
+				btnSendMessage.setDisable(true);
+			}
+		});
 	}
 	
 }

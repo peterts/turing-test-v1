@@ -111,24 +111,28 @@ public class PlayerChatViewController implements ChatListener{
 	}
 	
 	public void enableChat(){
-		txtMessage.setDisable(false);
-		btnSendMessage.setDisable(false);
-		btnGuessComputer.setDisable(false);
-		btnGuessHuman.setDisable(false);
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
+				txtMessage.setDisable(false);
+				btnSendMessage.setDisable(false);
+				btnGuessComputer.setDisable(false);
+				btnGuessHuman.setDisable(false);
 				txtMessage.requestFocus();
 			}
 		});
 	}
 	
 	public void disableChat(){
-		txtMessage.setDisable(true);
-		btnSendMessage.setDisable(true);
-		btnGuessComputer.setDisable(true);
-		btnGuessHuman.setDisable(true);
-		
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				txtMessage.setDisable(true);
+				btnSendMessage.setDisable(true);
+				btnGuessComputer.setDisable(true);
+				btnGuessHuman.setDisable(true);
+			}
+		});
 	}
 	
 }
