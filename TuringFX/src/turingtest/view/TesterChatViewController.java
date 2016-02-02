@@ -2,9 +2,11 @@ package turingtest.view;
 
 import turingtest.ChatConnection;
 import turingtest.ChatListener;
-import turingtest.MainPlayer;
-import turingtest.model.PlayerSession;
+import turingtest.SentenceHelper;
 import turingtest.model.TesterSession;
+
+import java.util.Random;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +24,7 @@ import javafx.scene.text.TextFlow;
 public class TesterChatViewController implements ChatListener{	
 	public final static String ANSWER_MESSAGE = "answer-";
 	private static final String FONT_FAMILY = "Verdena";
-	private static final Double FONT_SIZE = 14.0;
+	private static final Double FONT_SIZE = 36.0;
 	
 	@FXML
 	private TextField txtMessage;
@@ -34,6 +36,8 @@ public class TesterChatViewController implements ChatListener{
 	private ToggleButton btnUseBot;
 	@FXML
 	private ToggleButton btnDonotUseBot;
+	@FXML
+	private Label gameStatus;
 	private ObservableList<TextFlow> messages = FXCollections.observableArrayList();
 	private ChatConnection connection;
 	private TesterSession session;
@@ -48,6 +52,7 @@ public class TesterChatViewController implements ChatListener{
 	
 	@FXML
 	private void initialize(){
+		gameStatus.setText("New round. Please choose \"use bot\" or \"don't use bot.");
 		txtMessage.requestFocus();
 		lstMessageDisplay.setItems(messages);
 		disableChat();
@@ -70,6 +75,7 @@ public class TesterChatViewController implements ChatListener{
 	}
 	
 	public void useBot(){
+		gameStatus.setText("Round started. Bot is answering messages.");
 		session.setIsBot(true);
 		session.startBotSession();
 		btnUseBot.setDisable(true);
@@ -78,6 +84,7 @@ public class TesterChatViewController implements ChatListener{
 	}
 	
 	public void donotUseBot(){
+		gameStatus.setText("Round started. You are answering messages.");
 		session.setIsBot(false);
 		btnUseBot.setDisable(true);
 		btnDonotUseBot.setDisable(true);
@@ -88,15 +95,29 @@ public class TesterChatViewController implements ChatListener{
 	
 	public void sendMessage(){
 		String message = txtMessage.getText();
+		message = SentenceHelper.fixSentence(message);
 		addChatMessage("you: ", message);
 		connection.sendMessage(message);
 		txtMessage.clear();
 		disableChat();			
 	}
 	
-	private void sendBotMessage(String message){
-		addChatMessage("bot: ", message);
-		connection.sendMessage(message);
+	private void sendBotResponse(String message){
+		Random rand = new Random();
+		double wpm = 40.0 + rand.nextFloat()*40.0;
+		long startTime = System.currentTimeMillis();
+		String response = session.getBotResponse(message);
+		long minTimeToUse = (long) (60000*SentenceHelper.countWords(response)/wpm);
+		long timeUsed = System.currentTimeMillis() - startTime;
+		if(timeUsed < minTimeToUse){
+			try {
+				Thread.sleep(minTimeToUse-timeUsed);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		addChatMessage("bot: ", response);
+		connection.sendMessage(response);
 	}
 
 	@Override
@@ -111,7 +132,7 @@ public class TesterChatViewController implements ChatListener{
 		}
 		
 		if(session.isBot()){
-			sendBotMessage(session.getBotResponse(message));
+			sendBotResponse(message);
 		}else{
 			enableChat();
 		}

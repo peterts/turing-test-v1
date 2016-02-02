@@ -8,12 +8,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
 public class MainTester extends Application{
-	public final static int WINDOW_WIDTH = 600;
-	public final static int WINDOW_HEIGHT = 400;
+	public final static double WINDOW_WIDTH = 1000;
+	public final static double WINDOW_HEIGHT = 800;
 	
 	private BorderPane chatView;
 	private Stage primaryStage;
@@ -22,6 +23,7 @@ public class MainTester extends Application{
 	public void start(Stage primaryStage) {
 		try {
 			this.primaryStage = primaryStage;
+			primaryStage.setFullScreen(true);
 			initChatWindow(true);
 			primaryStage.setTitle("Chat");
 			primaryStage.show();

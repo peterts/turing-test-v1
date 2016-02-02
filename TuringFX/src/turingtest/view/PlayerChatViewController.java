@@ -2,7 +2,6 @@ package turingtest.view;
 
 import turingtest.ChatConnection;
 import turingtest.ChatListener;
-import turingtest.MainPlayer;
 import turingtest.model.PlayerSession;
 import turingtest.model.TesterType;
 import javafx.application.Platform;
@@ -21,7 +20,7 @@ import javafx.scene.text.TextFlow;
 public class PlayerChatViewController implements ChatListener{
 	public final static String GUESS_MESSAGE = "guess-";
 	private static final String FONT_FAMILY = "Verdena";
-	private static final Double FONT_SIZE = 14.0;
+	private static final Double FONT_SIZE = 36.0;
 	
 	@FXML
 	private TextField txtMessage;

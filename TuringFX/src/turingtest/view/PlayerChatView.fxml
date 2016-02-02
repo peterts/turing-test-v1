@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -7,9 +8,23 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turingtest.view.PlayerChatViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turingtest.view.PlayerChatViewController">
    <center>
-      <ListView fx:id="lstMessageDisplay" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../../stylesheets/chat.css" BorderPane.alignment="CENTER" />
+      <ListView fx:id="lstMessageDisplay" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <stylesheets>
+            <URL value="@../../../../../../Dokumenter/DarkTheme.css" />
+            <URL value="@../../../stylesheets/chat.css" />
+         </stylesheets>
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+              </items>
+            </ContextMenu>
+         </contextMenu></ListView>
    </center>
    <bottom>
       <VBox BorderPane.alignment="CENTER">
@@ -18,13 +33,19 @@
                <children>
                   <TextField fx:id="txtMessage" onAction="#sendMessage" promptText="Write a message..." HBox.hgrow="ALWAYS">
                      <HBox.margin>
-                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                        <Insets bottom="2.0" left="4.0" right="2.0" top="4.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="36.0" />
+                     </font>
                   </TextField>
                   <Button fx:id="btnSendMessage" mnemonicParsing="false" onAction="#sendMessage" text="Send message">
                      <HBox.margin>
-                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                        <Insets bottom="2.0" left="2.0" right="4.0" top="4.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="36.0" />
+                     </font>
                   </Button>
                </children>
             </HBox>
@@ -32,13 +53,19 @@
                <children>
                   <Button fx:id="btnGuessComputer" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#guessComputer" text="You're a computer!" HBox.hgrow="ALWAYS">
                      <HBox.margin>
-                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                        <Insets bottom="4.0" left="4.0" right="2.0" top="2.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="36.0" />
+                     </font>
                   </Button>
                   <Button fx:id="btnGuessHuman" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#guessHuman" text="You're a human!" HBox.hgrow="ALWAYS">
                      <HBox.margin>
-                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                        <Insets bottom="4.0" left="2.0" right="4.0" top="2.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="36.0" />
+                     </font>
                   </Button>
                </children>
             </HBox>
@@ -50,19 +77,28 @@
          <children>
             <Label fx:id="lblLinesLeft" text="Label">
                <padding>
-                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
+               <font>
+                  <Font size="36.0" />
+               </font>
             </Label>
             <Label fx:id="lblCurrentPoints" text="Label">
                <padding>
-                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
+               <font>
+                  <Font size="36.0" />
+               </font>
             </Label>
             <Pane HBox.hgrow="ALWAYS" />
             <Label fx:id="lblTotalPoints" text="Label">
                <padding>
-                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
+               <font>
+                  <Font size="36.0" />
+               </font>
             </Label>
          </children>
       </HBox>

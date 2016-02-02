@@ -9,38 +9,68 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turingtest.view.TesterChatViewController">
    <center>
-      <ListView fx:id="lstMessageDisplay" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../../stylesheets/chat.css" BorderPane.alignment="CENTER" />
+      <ListView fx:id="lstMessageDisplay" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../../stylesheets/chat.css" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="20.0" />
+         </padding></ListView>
    </center>
    <bottom>
-      <HBox BorderPane.alignment="CENTER">
+      <VBox BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="txtMessage" onAction="#sendMessage" promptText="Write a message..." HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-               </HBox.margin>
-            </TextField>
-            <Button fx:id="btnSendMessage" mnemonicParsing="false" onAction="#sendMessage" text="Send message">
-               <HBox.margin>
-                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-               </HBox.margin>
-            </Button>
+            <HBox>
+               <children>
+                  <TextField fx:id="txtMessage" onAction="#sendMessage" promptText="Write a message..." HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="4.0" left="4.0" right="2.0" top="4.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="btnSendMessage" mnemonicParsing="false" onAction="#sendMessage" text="Send message">
+                     <HBox.margin>
+                        <Insets bottom="4.0" left="2.0" right="4.0" top="4.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <ToggleButton fx:id="btnUseBot" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#useBot" text="Use bot" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="4.0" left="4.0" right="2.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="btnDonotUseBot" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#donotUseBot" text="Don't use bot" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="4.0" left="2.0" right="4.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </ToggleButton>
+               </children>
+            </HBox>
          </children>
-      </HBox>
+      </VBox>
    </bottom>
    <top>
-      <HBox BorderPane.alignment="CENTER">
-         <children>
-            <ToggleButton fx:id="btnUseBot" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#useBot" text="Use bot" HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-               </HBox.margin>
-            </ToggleButton>
-            <ToggleButton fx:id="btnDonotUseBot" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#donotUseBot" text="Don't use bot" HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
-               </HBox.margin>
-            </ToggleButton>
-         </children>
-      </HBox>
+      <Label text="Please choose &quot;use bot&quot; or &quot;don't use bot&quot;" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </BorderPane.margin>
+      </Label>
    </top>
 </BorderPane>

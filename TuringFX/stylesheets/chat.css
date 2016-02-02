@@ -7,3 +7,4 @@
 .list-cell:odd { /* <=== changed to even */
     -fx-background-color: white;
 }
+
