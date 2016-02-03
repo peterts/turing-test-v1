@@ -39,7 +39,7 @@
             </Label>
             <HBox alignment="CENTER">
                <children>
-                  <Button fx:id="btnNewRound" mnemonicParsing="false" prefWidth="300.0" text="New round" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btnNewRound" mnemonicParsing="false" onAction="#newRound" prefWidth="300.0" text="New round" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -47,7 +47,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="btnEndGame" mnemonicParsing="false" prefWidth="300.0" text="End game" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btnEndGame" mnemonicParsing="false" onAction="#endGame" prefWidth="300.0" text="End game" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="36.0" />
                      </font>

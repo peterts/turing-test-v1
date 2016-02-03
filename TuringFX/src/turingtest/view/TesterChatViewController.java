@@ -51,10 +51,23 @@ public class TesterChatViewController implements ChatListener{
 	
 	@FXML
 	private void initialize(){
-		updateGameStatus("New round. Please choose \"use bot\" or \"don't use bot.");
 		txtMessage.requestFocus();
 		lstMessageDisplay.setItems(messages);
 		disableChat();
+	}
+	
+	public void startNewRound(){
+		updateGameStatus("New round. Please choose \"use bot\" or \"don't use bot.");
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				btnUseBot.setSelected(false);
+				btnDonotUseBot.setSelected(false);
+				btnUseBot.setDisable(false);
+				btnDonotUseBot.setDisable(false);
+			}
+			
+		});
 	}
 	
 	private void addChatMessage(String nickname, String message){
@@ -69,6 +82,7 @@ public class TesterChatViewController implements ChatListener{
 			@Override
 			public void run(){
 				messages.add(tf);
+				lstMessageDisplay.scrollTo(messages.size()-1);
 			}
 		});
 	}
@@ -126,6 +140,10 @@ public class TesterChatViewController implements ChatListener{
 			String guess = message.split("-")[1];
 			updateGameStatus(String.format("Player guessed \"%s\".", guess));
 			connection.sendMessage(MessageType.ANSWER.toString()+session.getTesterType());
+		}else if(message.contains(MessageType.NEW_ROUND.toString())){
+			startNewRound();
+		}else if(message.contains(MessageType.END_GAME.toString())){
+			updateGameStatus("Game was ended by user.");
 		}else{
 			addChatMessage("other: ", message);
 			if(session.isBot()){
@@ -142,7 +160,6 @@ public class TesterChatViewController implements ChatListener{
 			public void run() {
 				gameStatus.setText(status);
 			}
-			
 		});
 	}
 	

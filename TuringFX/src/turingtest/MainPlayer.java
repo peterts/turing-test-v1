@@ -19,6 +19,7 @@ public class MainPlayer extends Application{
 	
 	private BorderPane chatView;
 	private BorderPane roundEndView;
+	private PlayerChatViewController chatViewController;
 	private RoundEndViewController roundEndViewController;
 	private Stage primaryStage;
 	private PlayerSession session;
@@ -43,7 +44,7 @@ public class MainPlayer extends Application{
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/PlayerChatView.fxml"));
 			chatView = loader.load();
-			PlayerChatViewController chatViewController = loader.getController();
+			chatViewController = loader.getController();
 			chatViewController.setMainApp(this);
 			
 			ChatConnection connection = new ChatConnection(false, chatViewController);
@@ -73,9 +74,9 @@ public class MainPlayer extends Application{
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
+				chatViewController.resetChat();
 				primaryStage.getScene().setRoot(chatView);
 			}
-			
 		});
 	}
 	

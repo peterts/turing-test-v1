@@ -41,21 +41,20 @@ public class RoundEndViewController {
 	
 	@FXML
 	private void initialize(){
-
+		btnNewRound.setDisable(true);
+		btnEndGame.setDisable(true);
 	}
 	
-	private void sleep(long millis){
-		Platform.runLater(new Runnable(){
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(millis);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}						
-			}
-			
-		});
+	public void newRound(){
+		btnNewRound.setDisable(true);
+		btnEndGame.setDisable(true);
+		main.showChatWindow();
+	}
+	
+	public void endGame(){
+		btnNewRound.setDisable(true);
+		btnEndGame.setDisable(true);
+		
 	}
 	
 	public void showAnswer(){
@@ -87,6 +86,8 @@ public class RoundEndViewController {
 					lblGuess.setTextFill(Color.web("#ff0000"));
 				}
 				lblTotalPoints.setText("Total points this far: "+session.getTotalPoints());
+				btnNewRound.setDisable(false);
+				btnEndGame.setDisable(false);
 			}
 	    	
 	    });

@@ -63,8 +63,11 @@ public class PlayerChatViewController implements ChatListener{
 		disableChat();
 	}
 	
-	private void clearMessages(){
+	public void resetChat(){
+		session.reset();
+		updateLabels();
 		messages.clear();
+		connection.sendMessage(MessageType.NEW_ROUND.toString());
 	}
 	
 	private void updateLabels(){
@@ -90,6 +93,7 @@ public class PlayerChatViewController implements ChatListener{
 			@Override
 			public void run(){
 				messages.add(tf);
+				lstMessageDisplay.scrollTo(messages.size()-1);
 			}
 		});
 	}
@@ -120,21 +124,20 @@ public class PlayerChatViewController implements ChatListener{
 	public void addMessage(String message){
 		if(message.contains(MessageType.READY.toString())){
 			enableChat(true);
-			return;
 		}
-		if(message.contains(MessageType.ANSWER.toString())){
+		else if(message.contains(MessageType.ANSWER.toString())){
 			TesterType actualType = TesterType.getType(message.split("-")[1]);
 			session.evaluateGuess(actualType);
 			main.showRoundEndView();
-			return;
 		}else{
 			addChatMessage("other: ", message);
+			if(session.getLinesLeft() > 0){
+				enableChat(true);			
+			}else{
+				enableChat(false);
+			}
 		}
-		if(session.getLinesLeft() > 0){
-			enableChat(true);			
-		}else{
-			enableChat(false);
-		}
+
 		
 	}
 	

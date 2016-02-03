@@ -4,6 +4,7 @@ public enum MessageType {
 	GUESS("guess-"),
 	ANSWER("answer-"),
 	NEW_ROUND("startnewround"),
+	END_GAME("gamewasended"),
 	READY("readytostart");
 	
 	private final String text;

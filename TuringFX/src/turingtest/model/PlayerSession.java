@@ -9,7 +9,6 @@ public class PlayerSession {
 	private float totalPoints;
 	private int linesLeft;
 	private int numGuesses;
-	private int numCorrectGuesses;
 	private TesterType guess;
 	private TesterType answer;
 	
@@ -18,7 +17,6 @@ public class PlayerSession {
 		availablePoints = maxPointsPerRound;
 		prevTotalPoints = 0;
 		totalPoints = 0;
-		numCorrectGuesses = 0;
 		numGuesses = 0;
 	}
 	
@@ -36,7 +34,7 @@ public class PlayerSession {
 		numGuesses += 1;
 	}
 	
-	private void reset(){
+	public void reset(){
 		linesLeft = maxNumLines;
 		availablePoints = maxPointsPerRound;
 	}
@@ -44,7 +42,6 @@ public class PlayerSession {
 	public void evaluateGuess(TesterType answer){
 		this.answer = answer;
 		if(guess == answer){
-			numCorrectGuesses += 1;
 			prevTotalPoints = totalPoints;
 			totalPoints += availablePoints;
 		}
@@ -72,10 +69,6 @@ public class PlayerSession {
 	
 	public int getNumGuesses(){
 		return numGuesses;
-	}
-	
-	public int getNumCorrectGuesses(){
-		return numCorrectGuesses;
 	}
 	
 	public TesterType getGuess(){
