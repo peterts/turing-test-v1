@@ -1,19 +1,22 @@
 package turingtest.model;
 
 public class PlayerSession {
-	private final int maxNumLines = 20;
+	private final int maxNumLines = 10;
 	private final int maxPointsPerRound = 100;
 	
 	private float availablePoints;
+	private float prevTotalPoints;
 	private float totalPoints;
 	private int linesLeft;
 	private int numGuesses;
 	private int numCorrectGuesses;
 	private TesterType guess;
+	private TesterType answer;
 	
 	public PlayerSession(){
 		linesLeft = maxNumLines;
 		availablePoints = maxPointsPerRound;
+		prevTotalPoints = 0;
 		totalPoints = 0;
 		numCorrectGuesses = 0;
 		numGuesses = 0;
@@ -39,15 +42,24 @@ public class PlayerSession {
 	}
 	
 	public void evaluateGuess(TesterType answer){
+		this.answer = answer;
 		if(guess == answer){
 			numCorrectGuesses += 1;
+			prevTotalPoints = totalPoints;
 			totalPoints += availablePoints;
 		}
-		reset();	
 	}
 	
 	public int getLinesLeft(){
 		return linesLeft;
+	}
+	
+	public int getMaxNumLines(){
+		return maxNumLines;
+	}
+	
+	public float getPrevTotalPoints(){
+		return prevTotalPoints;
 	}
 	
 	public float getTotalPoints(){
@@ -64,5 +76,13 @@ public class PlayerSession {
 	
 	public int getNumCorrectGuesses(){
 		return numCorrectGuesses;
+	}
+	
+	public TesterType getGuess(){
+		return guess;
+	}
+	
+	public TesterType getAnswer(){
+		return answer;
 	}
 }

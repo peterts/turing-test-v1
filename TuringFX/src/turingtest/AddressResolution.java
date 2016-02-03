@@ -3,6 +3,8 @@ package turingtest;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddressResolution {
 	public static final int PORT = 56619;
@@ -10,8 +12,27 @@ public class AddressResolution {
 	public static final String CLIENT_GREETING = "helloserverimclient";
 	public static final String SERVER_RESPONSE = "myipis-";
 	
+	private static String fixAddress(String address){
+		StringBuilder sb = new StringBuilder(address);
+		List<Integer> removeChars = new ArrayList<Integer>();
+		for(int i = 0; i < sb.length(); i++){
+			if(".0123456789".indexOf(sb.charAt(i)) == -1){
+				removeChars.add(i);
+			}
+		}
+		for(int i : removeChars){
+			sb.deleteCharAt(i);
+		}
+		return sb.toString();
+	}
+	
+	
 	public static void lookForClient(String address){
+
 		try{
+			address = fixAddress(address);
+			System.out.println(address);
+			
 			MulticastSocket multicastSocket = new MulticastSocket(PORT);
 			InetAddress group = InetAddress.getByName("224.0.0.0");
 			multicastSocket.joinGroup(group);

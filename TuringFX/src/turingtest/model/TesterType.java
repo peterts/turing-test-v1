@@ -1,7 +1,7 @@
 package turingtest.model;
 
 public enum TesterType {
-	HUMAN("HUMAN"), COMPUTER("COMPUTER");
+	HUMAN("human"), COMPUTER("computer");
 	
 	private final String text;
 	

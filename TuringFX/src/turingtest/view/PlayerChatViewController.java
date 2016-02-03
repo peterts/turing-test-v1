@@ -2,6 +2,7 @@ package turingtest.view;
 
 import turingtest.ChatConnection;
 import turingtest.ChatListener;
+import turingtest.MainPlayer;
 import turingtest.model.PlayerSession;
 import turingtest.model.TesterType;
 import javafx.application.Platform;
@@ -18,7 +19,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 public class PlayerChatViewController implements ChatListener{
-	public final static String GUESS_MESSAGE = "guess-";
 	private static final String FONT_FAMILY = "Verdena";
 	private static final Double FONT_SIZE = 36.0;
 	
@@ -41,6 +41,7 @@ public class PlayerChatViewController implements ChatListener{
 	private ObservableList<TextFlow> messages = FXCollections.observableArrayList();
 	private ChatConnection connection;
 	private PlayerSession session;
+	private MainPlayer main;
 	
 	public void setConnection(ChatConnection connection){
 		this.connection = connection;
@@ -51,10 +52,19 @@ public class PlayerChatViewController implements ChatListener{
 		updateLabels();
 	}
 	
+	public void setMainApp(MainPlayer main){
+		this.main = main;
+	}
+	
 	@FXML
 	private void initialize(){
 		txtMessage.requestFocus();
 		lstMessageDisplay.setItems(messages);
+		disableChat();
+	}
+	
+	private void clearMessages(){
+		messages.clear();
 	}
 	
 	private void updateLabels(){
@@ -62,7 +72,7 @@ public class PlayerChatViewController implements ChatListener{
 			@Override
 			public void run() {
 				lblCurrentPoints.setText("Available points: "+session.getAvailablePoints());
-				lblLinesLeft.setText(String.format("Max. lines left: %d/20", session.getLinesLeft()));
+				lblLinesLeft.setText(String.format("Max. lines left: %d/%d", session.getLinesLeft(), session.getMaxNumLines()));
 				lblTotalPoints.setText("Total points: " +  session.getTotalPoints());	
 			}
 		});
@@ -89,46 +99,53 @@ public class PlayerChatViewController implements ChatListener{
 		addChatMessage("you: ", message);
 		connection.sendMessage(message);
 		txtMessage.clear();
-		
 		session.useLine();
 		updateLabels();
-		
 		disableChat();
 	}
 	
 	public void guessHuman(){
-		connection.sendMessage(GUESS_MESSAGE+TesterType.HUMAN);
+		connection.sendMessage(MessageType.GUESS.toString()+TesterType.HUMAN);
 		session.registerGuess(TesterType.HUMAN);
 		disableChat();
 	}
 	
 	public void guessComputer(){
-		connection.sendMessage(GUESS_MESSAGE+TesterType.COMPUTER);
+		connection.sendMessage(MessageType.GUESS.toString()+TesterType.COMPUTER);
 		session.registerGuess(TesterType.COMPUTER);
 		disableChat();
 	}
 
 	@Override
 	public void addMessage(String message){
-		if(message.contains(TesterChatViewController.ANSWER_MESSAGE)){
+		if(message.contains(MessageType.READY.toString())){
+			enableChat(true);
+			return;
+		}
+		if(message.contains(MessageType.ANSWER.toString())){
 			TesterType actualType = TesterType.getType(message.split("-")[1]);
-			String modifiedMessage = String.format("ANSWER WAS \"%s\"", actualType);
-			addChatMessage("", modifiedMessage);
 			session.evaluateGuess(actualType);
-			updateLabels();
+			main.showRoundEndView();
 			return;
 		}else{
 			addChatMessage("other: ", message);
 		}
-		enableChat();
+		if(session.getLinesLeft() > 0){
+			enableChat(true);			
+		}else{
+			enableChat(false);
+		}
+		
 	}
 	
-	public void enableChat(){
+	public void enableChat(boolean enableMessage){
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
-				txtMessage.setDisable(false);
-				btnSendMessage.setDisable(false);
+				if(enableMessage){
+					txtMessage.setDisable(false);
+					btnSendMessage.setDisable(false);
+				}
 				btnGuessComputer.setDisable(false);
 				btnGuessHuman.setDisable(false);
 				txtMessage.requestFocus();

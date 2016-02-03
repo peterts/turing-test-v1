@@ -22,7 +22,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 public class TesterChatViewController implements ChatListener{	
-	public final static String ANSWER_MESSAGE = "answer-";
 	private static final String FONT_FAMILY = "Verdena";
 	private static final Double FONT_SIZE = 36.0;
 	
@@ -52,7 +51,7 @@ public class TesterChatViewController implements ChatListener{
 	
 	@FXML
 	private void initialize(){
-		gameStatus.setText("New round. Please choose \"use bot\" or \"don't use bot.");
+		updateGameStatus("New round. Please choose \"use bot\" or \"don't use bot.");
 		txtMessage.requestFocus();
 		lstMessageDisplay.setItems(messages);
 		disableChat();
@@ -75,23 +74,24 @@ public class TesterChatViewController implements ChatListener{
 	}
 	
 	public void useBot(){
-		gameStatus.setText("Round started. Bot is answering messages.");
+		updateGameStatus("Round started. Bot is answering messages.");
 		session.setIsBot(true);
 		session.startBotSession();
 		btnUseBot.setDisable(true);
 		btnDonotUseBot.setDisable(true);
+		connection.sendMessage(MessageType.READY.toString());
 		System.out.println("usebot");
 	}
 	
 	public void donotUseBot(){
-		gameStatus.setText("Round started. You are answering messages.");
+		updateGameStatus("Round started. You are answering messages.");
 		session.setIsBot(false);
 		btnUseBot.setDisable(true);
 		btnDonotUseBot.setDisable(true);
 		System.out.println("Dont use bot");
+		connection.sendMessage(MessageType.READY.toString());
 		enableChat();
-	}
-	
+	}	
 	
 	public void sendMessage(){
 		String message = txtMessage.getText();
@@ -122,20 +122,28 @@ public class TesterChatViewController implements ChatListener{
 
 	@Override
 	public void addMessage(String message){		
-		if(message.contains(PlayerChatViewController.GUESS_MESSAGE)){
-			String modifiedMessage = String.format("PLAYER GUESSED \"%s\"", message.split("-")[1]);
-			addChatMessage("", modifiedMessage);
-			connection.sendMessage(ANSWER_MESSAGE+session.getTesterType());
-			return;
+		if(message.contains(MessageType.GUESS.toString())){
+			String guess = message.split("-")[1];
+			updateGameStatus(String.format("Player guessed \"%s\".", guess));
+			connection.sendMessage(MessageType.ANSWER.toString()+session.getTesterType());
 		}else{
 			addChatMessage("other: ", message);
+			if(session.isBot()){
+				sendBotResponse(message);
+			}else{
+				enableChat();
+			}
 		}
-		
-		if(session.isBot()){
-			sendBotResponse(message);
-		}else{
-			enableChat();
-		}
+	}
+	
+	private void updateGameStatus(String status){
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				gameStatus.setText(status);
+			}
+			
+		});
 	}
 	
 	public void enableChat(){

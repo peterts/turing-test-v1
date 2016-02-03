@@ -64,7 +64,7 @@
       </VBox>
    </bottom>
    <top>
-      <Label text="Please choose &quot;use bot&quot; or &quot;don't use bot&quot;" BorderPane.alignment="CENTER">
+      <Label fx:id="gameStatus" text="Please choose &quot;use bot&quot; or &quot;don't use bot&quot;" BorderPane.alignment="CENTER">
          <font>
             <Font size="36.0" />
          </font>

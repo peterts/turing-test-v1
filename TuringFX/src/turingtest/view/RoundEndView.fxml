@@ -7,32 +7,39 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turingtest.view.RoundEndViewController">
    <center>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" text="You guessed &quot;human&quot;" VBox.vgrow="ALWAYS">
+            <Label fx:id="lblGuess" alignment="CENTER" text="You guessed &quot;human&quot;" VBox.vgrow="ALWAYS">
                <font>
-                  <Font size="136.0" />
+                  <Font size="96.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" text="Answer was ..." VBox.vgrow="ALWAYS">
+            <Label fx:id="lblAnswer" alignment="CENTER" text="Answer was ..." VBox.vgrow="ALWAYS">
                <font>
-                  <Font size="136.0" />
+                  <Font size="96.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Total points this far: 20" VBox.vgrow="ALWAYS">
+            <Label fx:id="lblAvailablePoints" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Available points: 20" VBox.vgrow="ALWAYS">
                <font>
-                  <Font size="72.0" />
+                  <Font size="64.0" />
                </font>
                <VBox.margin>
-                  <Insets bottom="40.0" top="40.0" />
+                  <Insets top="40.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="lblTotalPoints" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Total points this far: 20">
+               <font>
+                  <Font size="64.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="40.0" />
                </VBox.margin>
             </Label>
             <HBox alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" prefWidth="300.0" text="New round" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btnNewRound" mnemonicParsing="false" prefWidth="300.0" text="New round" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -40,7 +47,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="300.0" text="End game" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btnEndGame" mnemonicParsing="false" prefWidth="300.0" text="End game" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="36.0" />
                      </font>

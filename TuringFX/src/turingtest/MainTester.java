@@ -8,7 +8,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
@@ -23,8 +22,7 @@ public class MainTester extends Application{
 	public void start(Stage primaryStage) {
 		try {
 			this.primaryStage = primaryStage;
-			primaryStage.setFullScreen(true);
-			initChatWindow(true);
+			initChatWindow();
 			primaryStage.setTitle("Chat");
 			primaryStage.show();
 		} catch(Exception e) {
@@ -32,14 +30,13 @@ public class MainTester extends Application{
 		}
 	}
 	
-	public void initChatWindow(boolean isServer) throws Exception{
+	public void initChatWindow() throws Exception{
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("view/TesterChatView.fxml"));
 			chatView = loader.load();
 			TesterChatViewController chatViewController = loader.getController();
 			
-			ChatConnection connection = new ChatConnection(isServer, chatViewController);
-			chatViewController.setConnection(connection);
+			ChatConnection connection = new ChatConnection(true, chatViewController);
 			chatViewController.setConnection(connection);
 			connection.start();
 			

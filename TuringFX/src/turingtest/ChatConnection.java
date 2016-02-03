@@ -27,8 +27,7 @@ public class ChatConnection extends Thread{
 	private void startServer() throws IOException{
 		@SuppressWarnings("resource")
 		ServerSocket serverSocket = new ServerSocket(PORT);
-		AddressResolution.lookForClient(InetAddress.getLocalHost().getHostAddress());
-		System.out.println("Waiting for client on port " + serverSocket.getLocalPort() + "...");
+//		AddressResolution.lookForClient(InetAddress.getLocalHost().getHostAddress());
 		
 		socket = serverSocket.accept();	
 		in = new DataInputStream(socket.getInputStream());
@@ -36,9 +35,9 @@ public class ChatConnection extends Thread{
 	}
 	
 	private void startClient() throws IOException{
-		String address = AddressResolution.lookForServer();
+//		String address = AddressResolution.lookForServer();
 		
-		socket = new Socket(address, PORT);	
+		socket = new Socket("localhost", PORT);	
 		out = new DataOutputStream(socket.getOutputStream());
 		in = new DataInputStream(socket.getInputStream());
 	}
