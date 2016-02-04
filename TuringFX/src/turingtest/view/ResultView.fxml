@@ -7,16 +7,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turingtest.view.RoundEndViewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="turingtest.view.ResultViewController">
    <center>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" text="Rebus points: 1/10" VBox.vgrow="ALWAYS">
+            <Label fx:id="lblRebusPoints" alignment="CENTER" text="Rebus points: 1/10" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="96.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="(Turing test points: 100/1000)" VBox.vgrow="ALWAYS">
+            <Label fx:id="lblTotalPoints" alignment="CENTER" maxWidth="1.7976931348623157E308" text="(Turing test points: 100/1000)" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="64.0" />
                </font>
@@ -26,7 +26,7 @@
             </Label>
             <HBox alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" prefWidth="300.0" text="New game" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btnEndGame" mnemonicParsing="false" onAction="#newGameClicked" prefWidth="300.0" text="New game" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="36.0" />
                      </font>

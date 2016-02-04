@@ -5,10 +5,13 @@ import java.io.IOException;
 import turingtest.model.TesterSession;
 import turingtest.view.TesterChatViewController;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 
 public class MainTester extends Application{
@@ -17,6 +20,7 @@ public class MainTester extends Application{
 	
 	private BorderPane chatView;
 	private Stage primaryStage;
+	private ChatConnection connection;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -25,6 +29,16 @@ public class MainTester extends Application{
 			initChatWindow();
 			primaryStage.setTitle("Chat");
 			primaryStage.show();
+			
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	            @Override
+	            public void handle(WindowEvent t) {
+	            	System.out.println("Session ended");
+	            	connection.dissconnect();
+	            	Platform.exit();
+	            	System.exit(0);
+	            }
+	        });
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -36,7 +50,7 @@ public class MainTester extends Application{
 			chatView = loader.load();
 			TesterChatViewController chatViewController = loader.getController();
 			
-			ChatConnection connection = new ChatConnection(true, chatViewController);
+			connection = new ChatConnection(true, chatViewController);
 			chatViewController.setConnection(connection);
 			connection.start();
 			

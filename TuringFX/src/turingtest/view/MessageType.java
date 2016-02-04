@@ -5,6 +5,7 @@ public enum MessageType {
 	ANSWER("answer-"),
 	NEW_ROUND("startnewround"),
 	END_GAME("gamewasended"),
+	NEW_GAME("startnewgame"),
 	READY("readytostart");
 	
 	private final String text;

@@ -67,7 +67,6 @@ public class PlayerChatViewController implements ChatListener{
 		session.reset();
 		updateLabels();
 		messages.clear();
-		connection.sendMessage(MessageType.NEW_ROUND.toString());
 	}
 	
 	private void updateLabels(){
@@ -75,7 +74,7 @@ public class PlayerChatViewController implements ChatListener{
 			@Override
 			public void run() {
 				lblCurrentPoints.setText("Available points: "+session.getAvailablePoints());
-				lblLinesLeft.setText(String.format("Max. lines left: %d/%d", session.getLinesLeft(), session.getMaxNumLines()));
+				lblLinesLeft.setText(String.format("Max. lines left: %d/%d", session.getLinesLeft(), PlayerSession.MAX_NUM_LINES));
 				lblTotalPoints.setText("Total points: " +  session.getTotalPoints());	
 			}
 		});
@@ -128,7 +127,7 @@ public class PlayerChatViewController implements ChatListener{
 		else if(message.contains(MessageType.ANSWER.toString())){
 			TesterType actualType = TesterType.getType(message.split("-")[1]);
 			session.evaluateGuess(actualType);
-			main.showRoundEndView();
+			main.endRound();
 		}else{
 			addChatMessage("other: ", message);
 			if(session.getLinesLeft() > 0){

@@ -45,16 +45,27 @@ public class RoundEndViewController {
 		btnEndGame.setDisable(true);
 	}
 	
-	public void newRound(){
-		btnNewRound.setDisable(true);
-		btnEndGame.setDisable(true);
-		main.showChatWindow();
+	public void newRoundClicked(){
+		resetView();
+		main.newRound();
 	}
 	
-	public void endGame(){
-		btnNewRound.setDisable(true);
-		btnEndGame.setDisable(true);
-		
+	public void endGameClicked(){
+		resetView();
+		main.endGame();
+	}
+	
+	private void resetView(){
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				btnNewRound.setDisable(true);
+				btnEndGame.setDisable(true);
+				lblAnswer.setTextFill(Color.web("#000000"));
+				lblGuess.setTextFill(Color.web("#000000"));
+			}
+			
+		});
 	}
 	
 	public void showAnswer(){

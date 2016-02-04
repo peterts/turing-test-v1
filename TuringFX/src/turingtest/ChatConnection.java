@@ -14,6 +14,7 @@ public class ChatConnection extends Thread{
 	private DataInputStream in;
 	private DataOutputStream out;
 	private ChatListener listener;
+	private boolean run;
 
 	public ChatConnection(boolean isServer, ChatListener listener) throws IOException{
 		if(isServer){
@@ -22,6 +23,7 @@ public class ChatConnection extends Thread{
 			startClient();
 		}
 		this.listener = listener;
+		run = true;
 	}
 	
 	private void startServer() throws IOException{
@@ -58,9 +60,13 @@ public class ChatConnection extends Thread{
 			e.printStackTrace();
 		}
 	}
+	
+	public void dissconnect(){
+		run = false;
+	}
 
 	public void run(){
-		while(true){
+		while(run){
 			try {
 				String message = in.readUTF();
 				if(message.equals("endsession")){

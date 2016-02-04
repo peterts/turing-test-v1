@@ -1,8 +1,8 @@
 package turingtest.model;
 
 public class PlayerSession {
-	private final int maxNumLines = 10;
-	private final int maxPointsPerRound = 100;
+	public final static int MAX_NUM_LINES = 10;
+	public final static int MAX_POINTS_PER_ROUND = 100;
 	
 	private float availablePoints;
 	private float prevTotalPoints;
@@ -13,8 +13,8 @@ public class PlayerSession {
 	private TesterType answer;
 	
 	public PlayerSession(){
-		linesLeft = maxNumLines;
-		availablePoints = maxPointsPerRound;
+		linesLeft = MAX_NUM_LINES;
+		availablePoints = MAX_POINTS_PER_ROUND;
 		prevTotalPoints = 0;
 		totalPoints = 0;
 		numGuesses = 0;
@@ -22,8 +22,8 @@ public class PlayerSession {
 	
 	//Points do not start decreasing before after the first line
 	public boolean useLine(){
-		if(linesLeft < maxNumLines){
-			availablePoints -= maxPointsPerRound/maxNumLines;
+		if(linesLeft < MAX_NUM_LINES){
+			availablePoints -= MAX_POINTS_PER_ROUND/MAX_NUM_LINES;
 		}
 		linesLeft -= 1;
 		return linesLeft > 0;
@@ -35,14 +35,14 @@ public class PlayerSession {
 	}
 	
 	public void reset(){
-		linesLeft = maxNumLines;
-		availablePoints = maxPointsPerRound;
+		linesLeft = MAX_NUM_LINES;
+		availablePoints = MAX_POINTS_PER_ROUND;
 	}
 	
 	public void evaluateGuess(TesterType answer){
 		this.answer = answer;
+		prevTotalPoints = totalPoints;
 		if(guess == answer){
-			prevTotalPoints = totalPoints;
 			totalPoints += availablePoints;
 		}
 	}
@@ -51,16 +51,16 @@ public class PlayerSession {
 		return linesLeft;
 	}
 	
-	public int getMaxNumLines(){
-		return maxNumLines;
-	}
-	
 	public float getPrevTotalPoints(){
 		return prevTotalPoints;
 	}
 	
 	public float getTotalPoints(){
 		return totalPoints;
+	}
+	
+	public float getMaxPossiblePoints(){
+		return MAX_POINTS_PER_ROUND * numGuesses;
 	}
 	
 	public float getAvailablePoints(){

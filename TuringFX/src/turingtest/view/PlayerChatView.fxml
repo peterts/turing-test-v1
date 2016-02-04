@@ -12,7 +12,6 @@
    <center>
       <ListView fx:id="lstMessageDisplay" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <stylesheets>
-            <URL value="@../../../../../../Dokumenter/DarkTheme.css" />
             <URL value="@../../../stylesheets/chat.css" />
          </stylesheets>
          <padding>

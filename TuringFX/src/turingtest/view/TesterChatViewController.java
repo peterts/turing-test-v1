@@ -51,6 +51,7 @@ public class TesterChatViewController implements ChatListener{
 	
 	@FXML
 	private void initialize(){
+		updateGameStatus("Please choose \"use bot\" or \"don't use bot.");
 		txtMessage.requestFocus();
 		lstMessageDisplay.setItems(messages);
 		disableChat();
@@ -61,6 +62,7 @@ public class TesterChatViewController implements ChatListener{
 		Platform.runLater(new Runnable(){
 			@Override
 			public void run() {
+				messages.clear();
 				btnUseBot.setSelected(false);
 				btnDonotUseBot.setSelected(false);
 				btnUseBot.setDisable(false);
@@ -144,6 +146,8 @@ public class TesterChatViewController implements ChatListener{
 			startNewRound();
 		}else if(message.contains(MessageType.END_GAME.toString())){
 			updateGameStatus("Game was ended by user.");
+		}else if(message.contains(MessageType.NEW_GAME.toString())){
+			startNewRound();
 		}else{
 			addChatMessage("other: ", message);
 			if(session.isBot()){
