@@ -29,7 +29,7 @@ public class ChatConnection extends Thread{
 	private void startServer() throws IOException{
 		@SuppressWarnings("resource")
 		ServerSocket serverSocket = new ServerSocket(PORT);
-//		AddressResolution.lookForClient(InetAddress.getLocalHost().getHostAddress());
+		AddressResolution.lookForClient(InetAddress.getLocalHost().getHostAddress());
 		
 		socket = serverSocket.accept();	
 		in = new DataInputStream(socket.getInputStream());
@@ -37,9 +37,8 @@ public class ChatConnection extends Thread{
 	}
 	
 	private void startClient() throws IOException{
-//		String address = AddressResolution.lookForServer();
-		
-		socket = new Socket("localhost", PORT);	
+		String address = AddressResolution.lookForServer();
+		socket = new Socket(address, PORT);	
 		out = new DataOutputStream(socket.getOutputStream());
 		in = new DataInputStream(socket.getInputStream());
 	}
